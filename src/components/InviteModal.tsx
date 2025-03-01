@@ -150,6 +150,7 @@ const InviteModal = ({
         title: `${username}'s Challenge!`,
         text: `${username} challenges you! 🚀\nScore: ${score}\nJoin here: ${inviteLink}`,
         files: [file],
+        url: inviteLink
       };
 
       if (navigator.canShare && navigator.canShare(shareData)) {
