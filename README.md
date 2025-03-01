@@ -4,6 +4,10 @@
 
 Globetrotter is a full-stack web application where users get cryptic clues about a famous place and must guess the destination. After answering, they unlock fun facts, trivia, and surprises about the location!
 
+## 🌐 Live Demo
+
+https://globetrotter-game.vercel.app/
+
 ## 🚀 Features
 
 - 🔹 **Random Clues**: Users receive 1–2 random clues per round.
@@ -30,8 +34,7 @@ Globetrotter is a full-stack web application where users get cryptic clues about
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/globetrotter-challenge.git
-   cd globetrotter-challenge
+   git clone https://github.com/Pratik1374/Globetrotter.git
    ```
 2. Install dependencies:
    ```sh
