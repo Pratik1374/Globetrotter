@@ -127,7 +127,6 @@ const InviteModal = ({
       ctx.fillText("🌍", 350, 180);
 
       setImageDataUrl(canvas.toDataURL("image/png"));
-      setError("Failed to load background image, using fallback.");
     };
   };
 
@@ -137,9 +136,35 @@ const InviteModal = ({
     setTimeout(() => setIsCopied(false), 2000);
   };
 
-  const handleWhatsAppShare = () => {
-    const message = `${username} challenges you! Score: ${score}. Play: ${inviteLink}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
+  const handleWhatsAppShare = async () => {
+    if (!imageDataUrl || !inviteLink) return;
+
+    try {
+      const response = await fetch(imageDataUrl);
+      const blob = await response.blob();
+      const file = new File([blob], "globetrotter-invite.png", {
+        type: "image/png",
+      });
+
+      const shareData: ShareData = {
+        title: `${username}'s Challenge!`,
+        text: `${username} challenges you! 🚀\nScore: ${score}\nJoin here: ${inviteLink}`,
+        files: [file],
+      };
+
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: Open WhatsApp manually with text + link
+        const whatsappURL = `https://wa.me/?text=${encodeURIComponent(
+          `${username} challenges you! 🚀\nScore: ${score}\nJoin here: ${inviteLink}`
+        )}`;
+        window.open(whatsappURL, "_blank");
+      }
+    } catch (error) {
+      console.error("Image sharing failed", error);
+      alert("Failed to share the invite.");
+    }
   };
 
   return (
@@ -219,7 +244,7 @@ const InviteModal = ({
                 onClick={handleWhatsAppShare}
                 className="flex-1 px-4 py-3 rounded-xl border border-purple-500 text-purple-400 bg-transparent hover:border-purple-400 hover:text-purple-300 transition-all duration-300 cursor-pointer"
               >
-                WhatsApp 📱
+                Share 📱
               </motion.button>
             </div>
           </div>
