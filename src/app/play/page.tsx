@@ -3,8 +3,10 @@ import { useSearchParams } from "next/navigation";
 import GameContainer from "@/components/GameContainer";
 import FloatingIcons from "@/components/FloatingIcons";
 import { motion } from "framer-motion";
+import { Suspense } from "react";
+import Loader from "@/components/Loader";
 
-const GamePage = () => {
+const GameContent = () => {
   const searchParams = useSearchParams();
   const invitedUsername = searchParams.get("invitedBy");
   const invitedScore = searchParams.get("score");
@@ -71,6 +73,20 @@ const GamePage = () => {
       <div className="absolute bottom-4 left-4 h-12 w-12 border-b-2 border-l-2 border-purple-500/30 pointer-events-none" />
       <div className="absolute bottom-4 right-4 h-12 w-12 border-b-2 border-r-2 border-purple-500/30 pointer-events-none" />
     </div>
+  );
+};
+
+const GamePage = () => {
+  return (
+    <Suspense
+      fallback={
+        <p className="text-white">
+          <Loader />
+        </p>
+      }
+    >
+      <GameContent />
+    </Suspense>
   );
 };
 

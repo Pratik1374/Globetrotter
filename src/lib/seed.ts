@@ -1864,6 +1864,7 @@ const seedDatabase = async () => {
   await dbConnect();
   await Destination.deleteMany({}); // Clear existing data
   await Destination.insertMany(seedData);
+  console.log(seedData.length)
   console.log("Database seeded successfully!");
   process.exit();
 };
